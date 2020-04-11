@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+	<meta charset="UTF-8">
+	<meta name="author" content="cs8425">
+	<meta name="copyright" content="cs8425">
+	<title>Google 語音辨識 API</title>
+</head>
+
+<body>
+<button class="button" id="start_button">start</button><button class="button" id="stop_button">stop</button><br/>
+<p id="show"></p>
+
+<script>
+function pand2(i) {
+	var out = i
+	if (i < 10) {out = "0" + out};  // add zero in front of numbers < 10
+	return out;
+}
+function pand3(i) {
+	var out = i
+	if (i < 10) {out = "0" + out};  // add zero in front of numbers < 10
+	if (i < 100) {out = "0" + out};  // add zero in front of numbers < 100
+	return out;
+}
+function now() {
+	var now = new Date()
+	var h = now.getHours()
+	var m = now.getMinutes()
+	var s = now.getSeconds()
+	var ms = now.getMilliseconds()
+	m = pand2(m)
+	s = pand2(s)
+	ms = pand3(ms)
+	return h + ":" + m + ":" + s + '.' + ms
+}
+
+var show = document.getElementById('show');
+var startBtn = document.getElementById('start_button');
+var stopBtn = document.getElementById('stop_button');
+var recognition = new webkitSpeechRecognition();
+
+recognition.continuous=true;
+recognition.interimResults=false;
+recognition.lang="cmn-Hant-TW";
+
+recognition.onstart=function(){
+	console.log('開始辨識...');
+};
+recognition.onend=function(){
+	console.log('停止辨識!');
+};
+
+recognition.onresult=function(event){
+	var i = event.resultIndex;
+	var j = event.results[i].length-1;
+	var sev = event.results[i][j];
+	show.innerHTML = show.innerHTML + "<br/>[" + now() + "]" + sev.transcript;
+};
+
+startBtn.addEventListener('click', function(e){
+	recognition.start();
+});
+stopBtn.addEventListener('click', function(e){
+	recognition.stop();
+});
+</script>
+</body>
+</html>
+

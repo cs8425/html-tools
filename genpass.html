@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="cs8425">
+<meta name="copyright" content="cs8425">
+<title>generate sha256 base hash</title>
+<style type="text/css">
+html, body {
+	background-color: #111;
+	text-align: center;
+	color: #a00;
+}
+div {
+	margin: 1vw 5vw;
+	font-size: 10vw;
+	font-family: monospace;
+}
+textarea {
+	width: 80%;
+	height: 80vh;
+	font-size: 2em;
+	font-family: monospace;
+}
+.btn {
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+	background-color:#ffffff;
+	border-radius:6px;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	cursor:pointer;
+	color:#666666;
+	font-family:Arial;
+	font-size:2em;
+	font-weight:bold;
+	padding: .1em .6em;
+	margin: .2em .2em;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #ffffff;
+}
+.btn:hover {
+	background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+	background-color:#f6f6f6;
+}
+.btn:active {
+	position:relative;
+	top:1px;
+}
+.fill {
+	background-color:#ffffff;
+	border-radius:6px;
+	border:1px solid #dcdcdc;
+	color:#333333;
+	font-size:2em;
+	padding: .1em .6em;
+	margin: .1em;
+	text-decoration:none;
+	width: 50%;
+}
+#salt {
+	width: 20%;
+}
+#pass {
+	width: 20%;
+}
+</style>
+	
+</head>
+<body>
+<input class="fill" id="salt" type="text" placeholder="salt or left empty for random"/>
+<input class="fill" id="pass" type="text" placeholder="password..."/>
+<button id="gen" class="btn" type="submit">generate</button>
+
+<button id="copy" class="btn" type="submit">copy</button>
+<textarea id="output" placeholder="Type (or paste) here..." spellcheck="false" readonly></textarea>
+<script src="https://cdn.jsdelivr.net/gh/emn178/js-sha256/build/sha256.min.js"></script>
+<script type="text/javascript">
+	var sele = document.getElementById('salt');
+	var pele = document.getElementById('pass');
+	var out = document.getElementById('output');
+	document.getElementById('gen').addEventListener('click', function(e){
+		var salt = sele.value || rngStr(20)
+		var pwd = pele.value
+		//sele.value = salt
+		out.value = salt + '\t' + sha256(pwd + '-:-' + salt)
+	}, false);
+
+	document.getElementById('copy').addEventListener('click', function(e){
+		out.select()
+		document.execCommand('copy')
+	}, false);
+
+function rngStr(length) {
+	var out = '';
+	var char = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+	var len = char.length;
+	for (var i=0; i<length; i++) {
+		out += char.charAt(Math.floor(Math.random() * len));
+	}
+	return out;
+}
+</script>
+</body>
+</html>

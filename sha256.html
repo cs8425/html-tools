@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="cs8425">
+<meta name="copyright" content="cs8425">
+<title>sha256</title>
+<style type="text/css">
+html, body {
+	background-color: #111;
+	text-align: center;
+	color: #a00;
+}
+div {
+	margin: 1vw 5vw;
+	font-size: 10vw;
+	font-family: monospace;
+}
+textarea {
+	width: 90%;
+	height: 80vh;
+	font-size: 2em;
+	font-family: monospace;
+}
+.btn {
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+	background-color:#ffffff;
+	border-radius:6px;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	cursor:pointer;
+	color:#666666;
+	font-family:Arial;
+	font-size:2em;
+	font-weight:bold;
+	padding: .1em .6em;
+	margin: .2em .2em;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #ffffff;
+}
+.btn:hover {
+	background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+	background-color:#f6f6f6;
+}
+.btn:active {
+	position:relative;
+	top:1px;
+}
+.fill {
+	background-color:#ffffff;
+	border-radius:6px;
+	border:1px solid #dcdcdc;
+	color:#333333;
+	font-size:2em;
+	padding: .1em .6em;
+	margin: .1em;
+	text-decoration:none;
+	width: 50%;
+}
+</style>
+	
+</head>
+<body>
+<input class="fill" id="output" type="text" readonly/>
+<button id="copy" class="btn" type="submit">copy</button>
+<button id="sha256" class="btn" type="submit">sha256</button>
+<button id="sha224" class="btn" type="submit">sha224</button><br/>
+<textarea id="input" placeholder="Type (or paste) here..." spellcheck="false"></textarea>
+<script src="https://cdn.jsdelivr.net/gh/emn178/js-sha256/build/sha256.min.js"></script>
+<script type="text/javascript">
+	var ele = document.getElementById('input');
+	var out = document.getElementById('output');
+	document.getElementById('sha256').addEventListener('click', function(e){
+		out.value = sha256(ele.value)
+	}, false);
+	document.getElementById('sha224').addEventListener('click', function(e){
+		out.value = sha224(ele.value)
+	}, false);
+	document.getElementById('copy').addEventListener('click', function(e){
+		out.select()
+		document.execCommand('copy')
+	}, false);
+</script>
+</body>
+</html>
